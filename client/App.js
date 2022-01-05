@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { io } from "socket.io-client";
 
-import VirtualMousePad from "./components/VritualMousePad";
+import VirtualKeyboard from "./components/VirtualKeyboard";
+import VirtualMousePad from "./components/VirtualMousePad";
 
-const socket = io("http://192.168.0.191:5000");
+const socket = io("");
 
 const App = () => {
-  const [message, setMessage] = useState("Not connected");
-
-  const sendCommand = () => {
-    socket.emit("remote_control_message", "Command from client");
-  };
-
   return (
     <View style={styles.container}>
+      <View style={styles.keyboardControlContainer}>
+        <VirtualKeyboard socket={socket} />
+      </View>
       <View style={styles.mouseControlContainer}>
         <VirtualMousePad socket={socket} />
       </View>
@@ -38,6 +36,10 @@ const styles = StyleSheet.create({
   },
   mouseControlContainer: {
     width: "100%",
-    height: "40%",
+    flexBasis: "40%",
+  },
+  keyboardControlContainer: {
+    width: "100%",
+    flexBasis: "15%",
   },
 });

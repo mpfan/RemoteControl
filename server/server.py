@@ -38,6 +38,19 @@ def mouse_move(sid, data):
     y = int(command["data"]["y"])
     
     pyautogui.move(x, y)
+
+SPECIAL_KEYS = ["Backspace", " ", "Enter"]
+
+@sio.event
+def keyboard_key_press(sid, data):
+    command = json.loads(data)
     
+    key = command["data"]["key"]
+    
+    if key in SPECIAL_KEYS:
+        pyautogui.press(key.lower())
+    else:
+        pyautogui.write(key)
+        
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
